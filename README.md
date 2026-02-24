@@ -1,4 +1,4 @@
-# PetStore API Documentation
+# API Documentation Portfolio
 
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
@@ -11,46 +11,58 @@
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-Sample documentation for the Petstore learning API
+This repository contains samples of API documentation created for learning and portfolio purposes. It demonstrates technical writing skills for REST APIs using modern tools and best practices.
 
-## Contents
+## 📚 Contents
 
-* Project descriprion
-* Documentation structure
-* Application
-* Technology stack
-* Author
+* [Project Description](#project-description)
+* [Documentation Structure](#documentation-structure)
+* [Technology Stack](#technology-stack)
+* [Author](#author)
 
-## Project description
+## 📖 Project Description
 
-This repository contains the samples of documentation for public API [Petstore](https://petstore.swagger.io).The project purpose is to demonstrate technical documentation writing skills for REST API.
+This repository includes documentation samples for two different APIs:
 
-## Documentation structure
+* **[Petstore API](https://petstore.swagger.io)** — a popular learning API that demonstrates all CRUD operations.
+* **[GitHub REST API](https://docs.github.com/en/rest)** — a real-world API used by millions of developers.
 
-* 'petstore-api.md' - the main file with endpoints' documentation
-* `GET /pet/{petId}` — receiving the pet by ID.
-* `GET /pet/findByStatus` — pet searching by status.
+The goal is to show the ability to document various types of endpoints, work with different data structures, and follow industry standards.
+
+## 📂 Documentation Structure
+
+### 📁 Petstore API
+**File:** [`petstore-api.md`](petstore-api.md)
+
+Documentation for the Swagger Petstore API (learning API).  
+**Endpoints covered:**
+* `GET /pet/{petId}` — get pet by ID
+* `GET /pet/findByStatus` — search pets by status (`available`, `pending`, `sold`)
 * `POST /pet` — add a new pet to the store
 * `PUT /pet` — update an existing pet
 * `DELETE /pet/{petId}` — delete a pet by ID
 
-## Application
+### 📁 GitHub API
+**File:** [`github-api.md`](github-api.md)
 
-The documentation is written in Markdown (`.md`) format and can be viewed directly on GitHub.
+Documentation for the real GitHub REST API.  
+**Endpoints covered:**
+* `GET /users/{username}` — get public information about a GitHub user
+* `GET /users/{username}/repos` — list public repositories for a user
+* `GET /repos/{owner}/{repo}/commits` — list commits in a repository
 
-## Technology stack
+## 🛠 Technology Stack
 
-* **Markdown** - for documentation design.
-* **Git** - for version control.
-* **JSON** - for API response examples.
+* **Markdown** — for documentation design
+* **Git** — for version control
+* **GitHub** — for hosting and collaboration
 * **Postman** — for API testing and examples
+* **JSON** — for API response examples
 
-## Author
+## 👤 Author
 
-Alexander Subbotin
-
-Linguistics student at PSU(Perm State University), currently on academic mobility at ADA University (Baku).  
+**Alexander Subbotin**  
+Linguistics student at PSU (Perm State University), currently on academic mobility at ADA University (Baku).  
 Learning API documentation and technical writing.
 
-* [GitHub:](https://github.com/alivieskan25-blip)
-
+* **GitHub:** [alivieskan25-blip](https://github.com/alivieskan25-blip)
