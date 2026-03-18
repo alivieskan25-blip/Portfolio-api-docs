@@ -1,0 +1,261 @@
+openapi: 3.0.3
+info:
+  title: GitHub API Documentation Portfolio
+  description: |
+    OpenAPI specification for my technical writer portfolio.
+    The documentation is based on real requests to GitHub API.
+  version: 1.0.0
+  contact:
+    name: Alexander Subbotin
+    url: https://github.com/alivieskan25-blip
+servers:
+  - url: https://api.github.com
+    description: Production server GitHub API
+paths:
+  /users/{username}:
+    get:
+      summary: Get user information
+      description: Returns public information about a GitHub user
+      operationId: getUserByUsername
+      tags:
+        - Users
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: GitHub user login (e.g., "defunkt")
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Rate limit exceeded (use a token)
+        "404":
+          description: User not found
+
+  /users/{username}/repos:
+    get:
+      summary: Get list of public repositories
+      description: Returns a list of public repositories for the specified user
+      operationId: listUserRepos
+      tags:
+        - Repositories
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: GitHub user login
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          description: Number of results per page(max 100)
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page
+          in: query
+          description: Page number of the results to fetch.
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Successful response. An array of repositories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Repository"
+        "403":
+          description: Forbidden. Rate limit exceeded or bad token.
+        "404":
+          description: Not Found. User not found.
+
+  /users/{username}/starred:
+    get:
+      summary: Get repositories starred by user
+      description: Returns a list of repositories starred by the specified user
+      operationId: listUserStarred
+      tags:
+        - Activity
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: GitHub user login
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: The property to sort the results by
+          schema:
+            type: string
+            enum: [created, updated]
+            default: created
+        - name: direction
+          in: query
+          description: The direction to sort the results by
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+        - name: per_page
+          in: query
+          description: Number of results per page (max 100)
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page
+          in: query
+          description: Page number of the results to fetch
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Successful response. An array of repositories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Repository"
+        "304":
+          description: Not modified
+        "401":
+          description: Unauthorized (invalid token)
+        "403":
+          description: Forbidden. Rate limit exceeded
+        "404":
+          description: Not found. User not found
+
+components:
+  schemas:
+    Repository:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique repository identifier.
+          example: 1861402
+        name:
+          type: string
+          description: Repository name.
+          example: "ace"
+        full_name:
+          type: string
+          description: Full repository name (owner/name).
+          example: "defunkt/ace"
+        private:
+          type: boolean
+          description: Whether the repository is private.
+          example: false
+        html_url:
+          type: string
+          description: URL to the repository on GitHub.
+          example: "https://github.com/defunkt/ace"
+        description:
+          type: string
+          nullable: true
+          description: Repository description.
+          example: "Ajax.org Cloud9 Editor"
+        fork:
+          type: boolean
+          description: Whether this is a forked repository.
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Creation date (ISO 8601).
+          example: "2011-06-07T18:41:40Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update date.
+          example: "2025-07-16T04:14:55Z"
+        stargazers_count:
+          type: integer
+          description: Number of stars.
+          example: 16
+        language:
+          type: string
+          nullable: true
+          description: Primary programming language.
+          example: "JavaScript"
+        forks_count:
+          type: integer
+          description: Number of forks.
+          example: 7
+        open_issues_count:
+          type: integer
+          description: Number of open issues.
+          example: 0
+    User:
+      type: object
+      properties:
+        login:
+          type: string
+          description: User login
+          example: "defunkt"
+        id:
+          type: integer
+          description: User ID
+          example: 2
+        name:
+          type: string
+          nullable: true
+          description: User's full name
+          example: "Chris Wanstrath"
+        company:
+          type: string
+          nullable: true
+          description: User's company
+          example: "GitHub"
+        blog:
+          type: string
+          description: Personal blog URL
+          example: "http://chriswanstrath.com/"
+        location:
+          type: string
+          nullable: true
+          description: User location
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Public email
+        bio:
+          type: string
+          nullable: true
+          description: Short biography
+        public_repos:
+          type: integer
+          description: Number of public repositories
+          example: 107
+        followers:
+          type: integer
+          description: Number of followers
+          example: 22629
+        following:
+          type: integer
+          description: Number of users followed
+          example: 215
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation date
+          example: "2007-10-20T05:24:19Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Profile last update date
+          example: "2025-08-08T19:18:26Z"

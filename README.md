@@ -6,9 +6,10 @@
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 ![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST_API-005571?style=for-the-badge&logo=swagger&logoColor=white)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-green?style=for-the-badge&logo=swagger&logoColor=white)  **← добавил бейдж**
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.2.0-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.3.0-blue?style=for-the-badge)  **← версию поднял до 1.3.0**
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 This repository contains samples of API documentation created for learning and portfolio purposes. It demonstrates technical writing skills for REST APIs using modern tools and best practices.
@@ -17,6 +18,7 @@ This repository contains samples of API documentation created for learning and p
 
 * [Project Description](#project-description)
 * [Documentation Structure](#documentation-structure)
+* [OpenAPI Specification](#openapi-specification)
 * [Technology Stack](#technology-stack)
 * [Author](#author)
 * [What's Next](#whats-next)
@@ -67,6 +69,31 @@ Documentation for the real GitHub REST API. All examples are tested with live da
 |----------|-------------|
 | `PATCH /repos/{owner}/{repo}` | Update repository settings (name, description, visibility, etc.) |
 
+## 📖 OpenAPI Specification
+
+In addition to the human-readable Markdown documentation, this repository includes an **OpenAPI 3.0.3** specification for the GitHub API endpoints.
+
+**File:** [`openapi.yaml`](openapi.yaml)
+
+This machine-readable specification allows you to:
+- Generate interactive API documentation using tools like Swagger UI or Stoplight
+- Import into API testing tools (Postman, Insomnia)
+- Validate API requests and responses
+- Generate client SDKs in various programming languages
+
+### 🔍 Currently documented endpoints in OpenAPI:
+
+- `GET /users/{username}` — Get user information
+- `GET /users/{username}/repos` — List user repositories
+- `GET /users/{username}/starred` — List repositories starred by a user
+
+### 👀 Viewing the OpenAPI spec
+
+You can view this specification online:
+
+1. **Option 1:** Copy the contents of [`openapi.yaml`](openapi.yaml) and paste into [Swagger Editor](https://editor.swagger.io/)
+2. **Option 2:** (Coming soon) View on GitHub Pages
+
 ## 🛠 Technology Stack
 
 * **Markdown** — for documentation design
@@ -74,6 +101,7 @@ Documentation for the real GitHub REST API. All examples are tested with live da
 * **GitHub** — for hosting and collaboration
 * **Postman** — for API testing and generating real examples
 * **JSON** — for API response examples
+* **OpenAPI/Swagger** — for machine-readable API specification
 
 ## 👤 Author
 
@@ -87,9 +115,10 @@ Learning API documentation and technical writing.
 ## 🚀 What's Next
 
 I'm continuously improving my skills. Planned additions:
-- Add OpenAPI/Swagger specifications for documented endpoints
+- Add more endpoints to the OpenAPI specification
 - Document more complex GitHub endpoints (search API, organization endpoints)
 - Create documentation for a public API in Spanish
+- Set up GitHub Pages to automatically publish the OpenAPI documentation
 - Write a blog post about transitioning from linguistics to technical writing
 
 ---

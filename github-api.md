@@ -12,6 +12,8 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [GET /repos/{owner}/{repo}/commits — Get repository commits](#get-reposownerrepocommits--get-repository-commits)
   * [GET /users/{username}/starred — Get repositories starred by a user](#get-usersusernamestarred--get-repositories-starred-by-a-user)
   * [POST /repos/{owner}/{repo}/issues — Create an issue](#post-reposownerrepoissues--create-an-issue)
+  * [PATCH /repos/{owner}/{repo} — Update a repository](#patch-reposownerrepo--update-a-repository)
+  * [GET /repos/{owner}/{repo}/pulls — List pull requests](#get-reposownerrepopulls---lists-pull-requests-in-a-specified-repository)
 
 ## Base URL and Authorization
 
@@ -23,6 +25,11 @@ The recommended way is to use a **Personal Access Token**:
 1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
 2. Generate a new token (at least `public_repo` and `read:user` scopes)
 3. Use it in the `Authorization` header: `Authorization: token YOUR_TOKEN`
+
+## 📖 OpenAPI Specification
+
+This API is also described in a machine-readable **OpenAPI 3.0.3** format.  
+You can view the specification here: [`openapi.yaml`](openapi.yaml) or explore it in [Swagger Editor](https://editor.swagger.io/).
 
 ---
 
