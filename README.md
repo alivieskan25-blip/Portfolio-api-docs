@@ -6,10 +6,10 @@
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 ![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST_API-005571?style=for-the-badge&logo=swagger&logoColor=white)
-![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-green?style=for-the-badge&logo=swagger&logoColor=white)  **← добавил бейдж**
+![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-green?style=for-the-badge&logo=swagger&logoColor=white)
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.3.0-blue?style=for-the-badge)  **← версию поднял до 1.3.0**
+![Version](https://img.shields.io/badge/Version-1.3.0-blue?style=for-the-badge) 
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 This repository contains samples of API documentation created for learning and portfolio purposes. It demonstrates technical writing skills for REST APIs using modern tools and best practices.
