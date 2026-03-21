@@ -14,6 +14,8 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [POST /repos/{owner}/{repo}/issues — Create an issue](#post-reposownerrepoissues--create-an-issue)
   * [PATCH /repos/{owner}/{repo} — Update a repository](#patch-reposownerrepo--update-a-repository)
   * [GET /repos/{owner}/{repo}/pulls — List pull requests](#get-reposownerrepopulls---lists-pull-requests-in-a-specified-repository)
+  * [GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository]
+  (#get-reposownerrepocontributors---lists-contributors-to-the-specified-repository)
 
 ## Base URL and Authorization
 
@@ -831,3 +833,101 @@ curl -L \
 | 200 | Successful request |
 | 304 | Not modified |
 | 422 | Validation failed, or the endpoint has been spammed |
+
+### GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository
+
+**URL:** `https://api.github.com/repos/{owner}/{repo}/contributors`
+
+**Method:** `GET`
+
+**Description:** Lists contributors to the specified repository and sorts them by the number of commits per contributor in descending order
+
+#### Path Parameters
+
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| `owner` | string | Yes | The account owner of the repository |
+| `repo` | string | Yes | The name of the repository |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `anon` | string | No | Set to `true` to include anonymous contributors in results |
+| `per_page` | integer | No | The number of results per page (max 100) |
+| `page` | integer | No | The page number of the results to fetch |
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR_TOKEN` | No | Authentication token |
+
+#### Request Examples
+
+`GET https://api.github.com/repos/rust-lang/rustfmt/contributors`
+
+`GET https://api.github.com/repos/rust-lang/rustfmt/contributors?anon=true`
+
+#### cURL Command
+
+```bash
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  -H "X-GitHub-Api-Version: 2026-03-10" \
+  https://api.github.com/repos/OWNER/REPO/contributors
+```
+
+#### Response Example (successful, code 200)
+
+```json
+[
+    {
+        "login": "bors",
+        "id": 3372342,
+        "node_id": "MDQ6VXNlcjMzNzIzNDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3372342?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bors",
+        "html_url": "https://github.com/bors",
+        "followers_url": "https://api.github.com/users/bors/followers",
+        "following_url": "https://api.github.com/users/bors/following{/other_user}",
+        "gists_url": "https://api.github.com/users/bors/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/bors/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/bors/subscriptions",
+        "organizations_url": "https://api.github.com/users/bors/orgs",
+        "repos_url": "https://api.github.com/users/bors/repos",
+        "events_url": "https://api.github.com/users/bors/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/bors/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false,
+        "contributions": 47831
+    }
+]
+```
+#### Response Fields Description
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `login` | string | GitHub username of the contributor |
+| `id` | integer | Unique identifier of the user |
+| `avatar_url` | string | URL to contributor's avatar |
+| `html_url` | string | GitHub profile URL |
+| `type` | string | Type of user (User, Bot, etc.) |
+| `user_view_type` | string | Whether the user public or not |
+| `site_admin` | boolean | Whether the user is admin |
+| `contributions` | integer | Number of commits made by this contributor |
+
+#### Response Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Successful request |
+| 204 | Response if repository is empty |
+| 401 | Response if the token is incorrect or absent |
+| 403 | Rate limit exceeded (use a token) |
+| 404 | Resource not found |
+| 422 | Validation failed (invalid parameters) |

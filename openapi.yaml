@@ -138,6 +138,117 @@ paths:
         "404":
           description: Not found. User not found
 
+  /repos/{owner}/{repo}/contributors:
+    get:
+      summary: List repository contributors
+      description: |
+        Lists contributors to the specified repository.
+        Results are sorted by the number of commits per contributor in descending order.
+        This endpoint caches the response for performance reasons.
+      operationId: listRepoContributors
+      tags:
+        - Repositories
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          description: The account owner of the repository
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          description: The name of the repository
+          schema:
+            type: string
+        - name: anon
+          in: query
+          description: Set to `true` to include anonymous contributors
+          schema:
+            type: string
+            enum: [true, false]
+            default: false
+        - name: per_page
+          in: query
+          description: Results per page (max 100)
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page
+          in: query
+          description: Page number of the results to fetch
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful response. Returns an array of contributors.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contributor'
+        '401':
+          description: Unauthorized — token missing or invalid
+        '403':
+          description: Forbidden — rate limit exceeded
+        '404':
+          description: Not Found — repository does not exist
+        '422':
+          description: Validation failed — invalid parameters
+
+  /repos/{owner}/{repo}/commits:
+    get:
+      summary: List repository commits
+      description: |
+        Returns a list of commits for the specified repository.
+        Results are sorted by commit date in descending order.
+      operationId: listRepoCommits
+      tags:
+        - Repositories
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          description: The account owner of the repository
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          description: The name of the repository
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          description: Results per page (max 100)
+          schema: 
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page
+          in: query
+          description: Page number of the results to fetch
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful response. Returns an array of commits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commit
+        '403':
+          description: Forbidden — rate limit exceeded
+        '404':
+          description: Not Found — repository does not exist
+
+
 components:
   schemas:
     Repository:
@@ -259,3 +370,94 @@ components:
           format: date-time
           description: Profile last update date
           example: "2025-08-08T19:18:26Z"
+    Contributor:
+      description: A GitHub user who contributed to a repository
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            contributions:
+              type: integer
+              description: Number of commits made by this contributor
+              example: 47831
+          required:
+            - contributions
+    Commit:
+      type: object
+      properties:
+        sha:
+          type: string
+          description: The SHA hash of the commit
+          example: "6fdb28556235107f40242345b1b3a9313a736cc2"
+        url:
+          type: string
+          description: API URL of the commit
+          example: "https://api.github.com/repos/defunkt/ace/commits/6fdb28556235107f40242345b1b3a9313a736cc2"
+        html_url:
+          type: string
+          description: HTML URL to view the commit on GitHub
+          example: "https://github.com/defunkt/ace/commit/6fdb28556235107f40242345b1b3a9313a736cc2"
+        commit:
+          type: object
+          description: Detailed commit information
+          properties:
+            author:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Author's name
+                  example: "Fabian Jakobs"
+                email:
+                  type: string
+                  format: email
+                  description: Author's email
+                  example: "fabian.jakobs@web.de"
+                date:
+                  type: string
+                  format: date-time
+                  description: Commit date
+                  example: "2011-09-06T16:15:17Z"
+            committer:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Committer's name
+                  example: "Fabian Jakobs"
+                email:
+                  type: string
+                  format: email
+                  description: Committer's email
+                  example: "fabian.jakobs@web.de"
+                date:
+                  type: string
+                  format: date-time
+                  description: Commit date
+                  example: "2011-09-06T16:15:17Z"
+            message:
+              type: string
+              description: Commit message
+              example: "jslint fixes"
+            comment_count:
+              type: integer
+              description: Number of comments on this commit
+              example: 0
+        author:
+          $ref: '#/components/schemas/User'
+        committer:
+          $ref: '#/components/schemas/User'
+        parents:
+          type: array
+          description: Array of parent commits
+          items:
+            type: object
+            properties:
+              sha:
+                type: string
+                description: SHA of the parent commit
+                example: "a0051237b66a1312f31e6b56cb29f12b20c38527"
+              url:
+                type: string
+                description: API URL of the parent commit
+                example: "https://api.github.com/repos/defunkt/ace/commits/a0051237b66a1312f31e6b56cb29f12b20c38527"

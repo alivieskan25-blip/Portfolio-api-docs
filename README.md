@@ -9,7 +9,7 @@
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-green?style=for-the-badge&logo=swagger&logoColor=white)
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.3.0-blue?style=for-the-badge) 
+![Version](https://img.shields.io/badge/Version-1.4.0-blue?style=for-the-badge) 
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 This repository contains samples of API documentation created for learning and portfolio purposes. It demonstrates technical writing skills for REST APIs using modern tools and best practices.
@@ -86,6 +86,8 @@ This machine-readable specification allows you to:
 - `GET /users/{username}` — Get user information
 - `GET /users/{username}/repos` — List user repositories
 - `GET /users/{username}/starred` — List repositories starred by a user
+- `GET /repos/{owner}/{repo}/contributors` — List repository contributors
+- `GET /repos/{owner}/{repo}/commits` — List repository commits
 
 ### 👀 Viewing the OpenAPI spec
 
@@ -102,6 +104,7 @@ You can view this specification online:
 * **Postman** — for API testing and generating real examples
 * **JSON** — for API response examples
 * **OpenAPI/Swagger** — for machine-readable API specification
+* **YAML** — for OpenAPI specification
 
 ## 👤 Author
 
