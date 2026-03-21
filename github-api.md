@@ -14,8 +14,7 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [POST /repos/{owner}/{repo}/issues — Create an issue](#post-reposownerrepoissues--create-an-issue)
   * [PATCH /repos/{owner}/{repo} — Update a repository](#patch-reposownerrepo--update-a-repository)
   * [GET /repos/{owner}/{repo}/pulls — List pull requests](#get-reposownerrepopulls---lists-pull-requests-in-a-specified-repository)
-  * [GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository]
-  (#get-reposownerrepocontributors---lists-contributors-to-the-specified-repository)
+  * [GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository](#get-reposownerrepocontributors---lists-contributors-to-the-specified-repository)
 
 ## Base URL and Authorization
 
