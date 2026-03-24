@@ -930,3 +930,43 @@ curl -L \
 | 403 | Rate limit exceeded (use a token) |
 | 404 | Resource not found |
 | 422 | Validation failed (invalid parameters) |
+
+### POST /repos/{owner}/{repo}/pulls - Create a pull request
+
+**URL:** `https://api.github.com/repos/{owner}/{repo}/pulls`
+
+**Method:** `POST`
+
+**Description:** Draft pull requests are available in public repositories with GitHub
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `owner` | string | Yes | The account owner of the repository |
+| `repo` | string | Yes | The name of the repository |
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR_TOKEN` | Yes | Authentication token |
+| `Content-Type` | `application/json` | Yes | Indicates that the request body is JSON |
+
+#### Request Body Schema
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `head` | string | Yes | The name of the branch with updates |
+| `base` | string | Yes | The name of the branch you want the changes pulled into |
+| `title` | string | **No** | The title of the new pull request. Required unless `issue` is specified |
+| `head_repo` | string | **No** | The name of the repository where the changes in the pull request were made. This field is required for cross-repository pull requests if both repositories are owned by the same organization |
+| `body` | string | No | The contents of the pull request |
+| `maintainer_can_modify` | boolean | No | Indicates whether maintainers can modify the pull request |
+| `draft` | boolean | No | Indicates whether the pull request is a draft |
+| `issue` | integer | **No** | An issue in the repository to convert to a pull request.Required unless `title` is specified |
+
+#### Request Example
+
+```json
