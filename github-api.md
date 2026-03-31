@@ -15,6 +15,8 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [PATCH /repos/{owner}/{repo} — Update a repository](#patch-reposownerrepo--update-a-repository)
   * [GET /repos/{owner}/{repo}/pulls — List pull requests](#get-reposownerrepopulls---lists-pull-requests-in-a-specified-repository)
   * [GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository](#get-reposownerrepocontributors---lists-contributors-to-the-specified-repository)
+  * [POST /repos/{owner}/{repo}/pulls - Create a pull request](#post-reposownerrepopulls---draft-pull-requests-are-available-in-public-repositories-with-github)
+  * [GET /repos/{owner}/{repo}/issues - List issues in a repository](#get-reposownerrepoissues---list-issues-in-a-repository)
 
 ## Base URL and Authorization
 
@@ -929,4 +931,247 @@ curl -L \
 | 401 | Response if the token is incorrect or absent |
 | 403 | Rate limit exceeded (use a token) |
 | 404 | Resource not found |
+<<<<<<< Updated upstream
 | 422 | Validation failed (invalid parameters) |
+=======
+| 422 | Validation failed (invalid parameters) |
+
+### POST /repos/{owner}/{repo}/pulls - Create a pull request
+
+**URL:** `https://api.github.com/repos/{owner}/{repo}/pulls`
+
+**Method:** `POST`
+
+**Description:** Draft pull requests are available in public repositories with GitHub
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `owner` | string | Yes | The account owner of the repository |
+| `repo` | string | Yes | The name of the repository |
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR_TOKEN` | Yes | Authentication token |
+| `Content-Type` | `application/json` | Yes | Indicates that the request body is JSON |
+
+#### Request Body Schema
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `head` | string | Yes | The name of the branch with updates |
+| `base` | string | Yes | The name of the branch you want the changes pulled into |
+| `title` | string | **No** | The title of the new pull request. Required unless `issue` is specified |
+| `head_repo` | string | **No** | The name of the repository where the changes in the pull request were made. This field is required for cross-repository pull requests if both repositories are owned by the same organization |
+| `body` | string | No | The contents of the pull request |
+| `maintainer_can_modify` | boolean | No | Indicates whether maintainers can modify the pull request |
+| `draft` | boolean | No | Indicates whether the pull request is a draft |
+| `issue` | integer | **No** | An issue in the repository to convert to a pull request.Required unless `title` is specified |
+
+#### Request Example
+
+```json
+{
+    "title": "Amazing new feature",
+    "body": "Please pull these awesome changes in!",
+    "head": "feature-branch",
+    "base": "main"
+}
+```
+
+#### cURL Command
+
+```bash
+curl -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  https://api.github.com/repos/OWNER/REPO/pulls \
+  -d '{
+    "title": "Amazing new feature",
+    "body": "Please pull these awesome changes in!",
+    "head": "feature-branch",
+    "base": "main"
+  }'
+```
+
+#### Response Example (successful, code 201)
+
+```json
+{
+  "url": "https://api.github.com/repos/alivieskan25-blip/Portfolio-api-docs/pulls/2",
+  "html_url": "https://github.com/alivieskan25-blip/Portfolio-api-docs/pull/2",
+  "number": 2,
+  "state": "open",
+  "title": "Amazing new feature",
+  "body": "Please pull these awesome changes in!",
+  "user": {
+    "login": "alivieskan25-blip",
+    "avatar_url": "https://avatars.githubusercontent.com/u/261747932?v=4"
+  },
+  "created_at": "2026-03-24T17:24:25Z",
+  "updated_at": "2026-03-24T17:24:25Z",
+  "draft": false,
+  "head": {
+    "ref": "feature-branch",
+    "sha": "308c8ee3f604739c2fc1d65603bd55c830b00b4c"
+  },
+  "base": {
+    "ref": "main",
+    "sha": "4faa510d281b991ae0ebc8cbea396a969648b113"
+  },
+  "mergeable": null,
+  "merged": false,
+  "commits": 1,
+  "additions": 43,
+  "deletions": 1,
+  "changed_files": 3
+}
+```
+
+#### Response Fields Description
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `url` | string | API URL of the pull request |
+| `html_url` | string | HTML URL to view the pull request on GitHub |
+| `number` | integer | Number of the pull request |
+| `state` | string | Current state: `open`, `closed` or `merged` |
+| `title` | string | Pull request title |
+| `body` | string | Pull request description |
+| `user` | object | Author of the pull request |
+| `user.login` | string | Author's GitHub username |
+| `user.avatar_url` | string | Author's GitHub avatar |
+| `created_at` | string | Creation date (ISO 8601) |
+| `updated_at` | string | Last update date |
+| `draft` | boolean | Whether the pull request is a draft |
+| `head.ref` | string | The branch where changes are implemented |
+| `base.ref` | string | The branch where changes are pulled into |
+| `merged` | boolean | Whether the pull request has been merged |
+| `commits` | integer | Number of the commits in the pull request |
+| `additions` | integer | Number of the added lines in the pull request |
+| `deletions` | integer | Number of lines deleted |
+| `changed_files` | integer | Number of the changed files |
+
+#### Response Codes
+
+| Code | Description |
+|------|-------------|
+| 201 | Pull request successfully created |
+| 401 | Unauthorized — token missing or invalid |
+| 403 | Forbidden — token lacks repo scope |
+| 404 | Not found — repository doesn't exist |
+| 422 | Unprocessable Entity — validation failed |
+
+### GET /repos/{owner}/{repo}/issues - List issues in a repository
+
+**URL:** `https://api.github.com/repos/{owner}/{repo}/issues`
+
+**Method:** `GET`
+
+**Description:** List issues in a repository. Only open issues will be listed.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Descripion |
+|-----------|------|----------|------------|
+| `owner` | string | Yes | The account owner of the repository |
+| `repo` | string | Yes | The name of the repository |
+
+#### Query Parameters
+
+| Parameters | Type | Required | Description | Default |
+|------------|------|----------|-------------|---------|
+| `state` | string | No | Indicates the state of the issues to return.Can be one of: `open`, `closed`, `all` | `open` |
+| `labels` | string | No | Comma-separated list of label names (e.g., `bug,docs`) | — |
+| `since` | string | No | Only issues updated after this date (ISO 8601) | — |
+| `sort` | string | No | What to sort results by: `created`, `updated`, `comments` | `created` |
+| `direction` | string | No | Sort direction: `asc` or `desc` | `desc` |
+| `per_page` | integer | No | Results per page (max 100) | `30` |
+| `page` | integer | No | Page number | `1` |
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR_TOKEN` | No | Authentication token (for higher rate limits) |
+
+#### Request Examples
+
+`GET https://api.github.com/repos/octocat/Hello-World/issues`
+
+`GET https://api.github.com/repos/octocat/Hello-World/issues?state=closed&labels=bug&since=2026-01-01T00:00:00Z`
+
+#### cURL Command
+
+```bash
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.github.com/repos/OWNER/REPO/issues?state=open&per_page=10
+```
+
+#### Response Example (successful, code 200)
+
+The response contains an array with objects.
+
+```json
+[
+  {
+    "url": "https://api.github.com/repos/octocat/Hello-World/issues/1",
+    "id": 1,
+    "number": 1,
+    "title": "Found a bug",
+    "state": "open",
+    "user": {
+      "login": "octocat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
+    },
+    "labels": [
+      {
+        "name": "bug",
+        "color": "d73a4a"
+      }
+    ],
+    "created_at": "2026-03-01T12:00:00Z",
+    "updated_at": "2026-03-28T14:30:00Z",
+    "closed_at": null,
+    "body": "When I click the button, nothing happens."
+  }
+]
+```
+
+#### Response Fields Description
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | integer | Unique issue identifier |
+| `number` | integer | Issue number in the repository |
+| `title` | string | Issue title |
+| `state` | string | Issue state: `open` or `close` |
+| `user` | object | Issue's creator |
+| `user.login` | string | Creator's name |
+| `labels` | array | List of issue's labels |
+| `labels[].name` | string | Label name (e.g., "bug") |
+| `labels[].color` | string | Label color in hex (e.g., "d73a4a") |
+| `created_at` | string | Issue creation date |
+| `updated_at` | string | Issue update date |
+| `closed_at` | string | Closing date(null if open) |
+| `body` | string | Issue description |
+
+#### Response Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Successful request |
+| 301 | Moved permanently — the repository has been renamed or moved |
+| 304 | Not modified |
+| 403 | Rate limit exceeded |
+| 404 | Repository not found |
+| 422 | Validation failed or the endpoint has been spammed |
+

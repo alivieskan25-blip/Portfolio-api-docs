@@ -58,11 +58,14 @@ Documentation for the real GitHub REST API. All examples are tested with live da
 | `GET /repos/{owner}/{repo}/commits` | List commits in a repository |
 | `GET /users/{username}/starred` | List repositories starred by a user |
 | `GET /repos/{owner}/{repo}/pulls` | List pull requests in a repository |
+| `GET /repos/{owner}/{repo}/contributors` | Lists contributors to the specified repository |
+| `GET /repos/{owner}/{repo}/issues` | List issues in a repository |
 
 #### POST endpoints (creating data):
 | Endpoint | Description |
 |----------|-------------|
 | `POST /repos/{owner}/{repo}/issues` | Create a new issue in a repository (tested on my own repo) |
+| `POST /repos/{owner}/{repo}/pulls` | Create a pull request(tested on my repo) |
 
 #### PATCH endpoints (updating data):
 | Endpoint | Description |
@@ -88,6 +91,7 @@ This machine-readable specification allows you to:
 - `GET /users/{username}/starred` — List repositories starred by a user
 - `GET /repos/{owner}/{repo}/contributors` — List repository contributors
 - `GET /repos/{owner}/{repo}/commits` — List repository commits
+- `GET /repos/{owner}/{repo}/issues` — List issues in a repository
 
 ### 👀 Viewing the OpenAPI spec
 

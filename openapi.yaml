@@ -247,6 +247,93 @@ paths:
           description: Forbidden — rate limit exceeded
         '404':
           description: Not Found — repository does not exist
+  /repos/{owner}/{repo}/issues:
+    get:
+      summary: List repository issues
+      description: |
+        Lists issues in a repository.
+        By default, returns open issues. Use the `state` parameter to filter.
+      operationId: listRepoIssues
+      tags:
+        - Issues
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          description: The account owner of the repository
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          description: The name of the repository 
+          schema:
+            type: string 
+        - name: state 
+          in: query
+          description: State of the issues to return
+          schema:
+            type: string
+            enum: [open, closed, all]
+            default: open
+        - name: labels
+          in: query
+          description: List of label names
+          schema: 
+            type: string
+        - name: since
+          in: query
+          description: Only issues updated after this date (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: sort
+          in: query
+          description: What to sort results by
+          schema:
+            type: string
+            enum: [created, updated, comments]
+            default: created
+        - name: direction
+          in: query
+          description: Sort direction
+          schema:
+            type: string
+            enum: [asc,desc]
+            default: desc
+        - name: per_page
+          in: query
+          description: Results per page
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page 
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful response.Returns an array of issues.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+        '301':
+          description: Moved permanently — the repository has been renamed or moved
+        '304':
+          description: Not modified
+        '403':
+          description: Forbidden — rate limit exceeded
+        '404':
+          description: Not Found — repository does not exist
+        '422':
+          description: Validation failed or the endpoint has been spammed
+
 
 
 components:
@@ -461,3 +548,66 @@ components:
                 type: string
                 description: API URL of the parent commit
                 example: "https://api.github.com/repos/defunkt/ace/commits/a0051237b66a1312f31e6b56cb29f12b20c38527"
+    Issue: 
+      type: object
+      properties: 
+        id:
+          type: integer
+          description: Unique issue identifier
+          example: 1
+        number:
+          type: integer
+          description: Issue number in the repository
+          example: 1
+        title:
+          type: string
+          description: Issue title
+          example: "Found a bug"
+        state: 
+          type: string
+          description: Issue state
+          enum: [open, closed]
+          example: "open"
+        user:
+          $ref: '#/components/schemas/User'
+        labels:
+          type: array
+          description: List of issue's labels
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Label name
+                example: "bug"
+              color:
+                type: string
+                description: Label color in hex
+                example: "d73a4a"
+        created_at:
+          type: string
+          format: date-time
+          description: Issue creation date
+          example: "2026-03-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update date
+          example: "2026-03-28T14:30:00Z"
+        closed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Closing date (null if open)
+          example: null
+        body:
+          type: string
+          description: Issue description
+          example: "When I click the button, nothing happens."
+      required:
+        - id
+        - number
+        - title
+        - state
+        - user
+        
