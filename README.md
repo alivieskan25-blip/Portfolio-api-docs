@@ -9,7 +9,7 @@
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-green?style=for-the-badge&logo=swagger&logoColor=white)
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.4.0-blue?style=for-the-badge) 
+![Version](https://img.shields.io/badge/Version-1.5.0-blue?style=for-the-badge) 
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 This repository contains samples of API documentation created for learning and portfolio purposes. It demonstrates technical writing skills for REST APIs using modern tools and best practices.
@@ -60,6 +60,7 @@ Documentation for the real GitHub REST API. All examples are tested with live da
 | `GET /repos/{owner}/{repo}/pulls` | List pull requests in a repository |
 | `GET /repos/{owner}/{repo}/contributors` | Lists contributors to the specified repository |
 | `GET /repos/{owner}/{repo}/issues` | List issues in a repository |
+| `GET /user/repos` | List repositories for the authenticated user |
 
 #### POST endpoints (creating data):
 | Endpoint | Description |
@@ -92,6 +93,7 @@ This machine-readable specification allows you to:
 - `GET /repos/{owner}/{repo}/contributors` — List repository contributors
 - `GET /repos/{owner}/{repo}/commits` — List repository commits
 - `GET /repos/{owner}/{repo}/issues` — List issues in a repository
+- 'GET /user/repos` — List repositories for the authenticated user
 
 ### 👀 Viewing the OpenAPI spec
 
@@ -130,4 +132,4 @@ I'm continuously improving my skills. Planned additions:
 
 ---
 
-*Last updated: March 2026*
+*Last updated: April 2026*

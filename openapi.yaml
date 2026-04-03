@@ -182,21 +182,21 @@ paths:
             type: integer
             default: 1
       responses:
-        '200':
+        "200":
           description: Successful response. Returns an array of contributors.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Contributor'
-        '401':
+                  $ref: "#/components/schemas/Contributor"
+        "401":
           description: Unauthorized — token missing or invalid
-        '403':
+        "403":
           description: Forbidden — rate limit exceeded
-        '404':
+        "404":
           description: Not Found — repository does not exist
-        '422':
+        "422":
           description: Validation failed — invalid parameters
 
   /repos/{owner}/{repo}/commits:
@@ -224,7 +224,7 @@ paths:
         - name: per_page
           in: query
           description: Results per page (max 100)
-          schema: 
+          schema:
             type: integer
             default: 30
             maximum: 100
@@ -235,17 +235,17 @@ paths:
             type: integer
             default: 1
       responses:
-        '200':
+        "200":
           description: Successful response. Returns an array of commits
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Commit
-        '403':
+                  $ref: "#/components/schemas/Commit"
+        "403":
           description: Forbidden — rate limit exceeded
-        '404':
+        "404":
           description: Not Found — repository does not exist
   /repos/{owner}/{repo}/issues:
     get:
@@ -266,10 +266,10 @@ paths:
         - name: repo
           in: path
           required: true
-          description: The name of the repository 
+          description: The name of the repository
           schema:
-            type: string 
-        - name: state 
+            type: string
+        - name: state
           in: query
           description: State of the issues to return
           schema:
@@ -279,7 +279,7 @@ paths:
         - name: labels
           in: query
           description: List of label names
-          schema: 
+          schema:
             type: string
         - name: since
           in: query
@@ -299,7 +299,7 @@ paths:
           description: Sort direction
           schema:
             type: string
-            enum: [asc,desc]
+            enum: [asc, desc]
             default: desc
         - name: per_page
           in: query
@@ -308,33 +308,115 @@ paths:
             type: integer
             default: 30
             maximum: 100
-        - name: page 
+        - name: page
           in: query
           description: Page number
           schema:
             type: integer
             default: 1
       responses:
-        '200':
+        "200":
           description: Successful response.Returns an array of issues.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Issue'
-        '301':
+                  $ref: "#/components/schemas/Issue"
+        "301":
           description: Moved permanently — the repository has been renamed or moved
-        '304':
+        "304":
           description: Not modified
-        '403':
+        "403":
           description: Forbidden — rate limit exceeded
-        '404':
+        "404":
           description: Not Found — repository does not exist
-        '422':
+        "422":
           description: Validation failed or the endpoint has been spammed
-
-
+  /user/repos:
+    get:
+      summary: List repositories for the authenticated user
+      description: |
+        Lists repositories that the authenticated user has explicit permission.
+      operationId: listAuthenticatedUserRepos
+      tags:
+        - Repositories
+      parameters:
+        - name: visibility
+          in: query
+          description: Repository visibility
+          schema:
+            type: string
+            enum: [all, public, private]
+            default: all
+        - name: affiliation
+          in: query
+          description: Comma-separated list of affiliations
+          schema:
+            type: string
+            enum:
+              - owner
+              - collaborator
+              - organization_member
+              - owner,collaborator
+              - owner,organization_member
+              - collaborator,organization_member
+              - owner,collaborator,organization_member
+            default: owner,collaborator,organization_member
+        - name: type
+          in: query
+          description: Limit results to repositories of the specified type
+          schema:
+            type: string
+            enum: [all, owner, public, private, member]
+            default: all
+        - name: sort
+          in: query
+          description: The property to sort the results by
+          schema:
+            type: string
+            enum: [created, updated, pushed, full_name]
+            default: full_name
+        - name: direction
+          in: query
+          description: |
+            The order to sort by
+            Use `asc` for ascending order (oldest first, or A to Z).
+            Use `desc` for descending order (newest first, or Z to A).
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+        - name: per_page
+          in: query
+          description: Results per page
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+        - name: page
+          in: query
+          description: The page number of the results to fetch
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Successful response.Returns an array of repository objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Repository"
+        "304":
+          description: Not modified
+        "401":
+          description: Unauthorized — token missing or invalid
+        "403":
+          description: Forbidden — token lacks required scopes
+        "422":
+          description: Validation failed
 
 components:
   schemas:
@@ -460,7 +542,7 @@ components:
     Contributor:
       description: A GitHub user who contributed to a repository
       allOf:
-        - $ref: '#/components/schemas/User'
+        - $ref: "#/components/schemas/User"
         - type: object
           properties:
             contributions:
@@ -531,9 +613,9 @@ components:
               description: Number of comments on this commit
               example: 0
         author:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         committer:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         parents:
           type: array
           description: Array of parent commits
@@ -548,9 +630,9 @@ components:
                 type: string
                 description: API URL of the parent commit
                 example: "https://api.github.com/repos/defunkt/ace/commits/a0051237b66a1312f31e6b56cb29f12b20c38527"
-    Issue: 
+    Issue:
       type: object
-      properties: 
+      properties:
         id:
           type: integer
           description: Unique issue identifier
@@ -563,13 +645,13 @@ components:
           type: string
           description: Issue title
           example: "Found a bug"
-        state: 
+        state:
           type: string
           description: Issue state
           enum: [open, closed]
           example: "open"
         user:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         labels:
           type: array
           description: List of issue's labels
@@ -610,4 +692,3 @@ components:
         - title
         - state
         - user
-        

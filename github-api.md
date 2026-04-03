@@ -17,6 +17,7 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [GET /repos/{owner}/{repo}/contributors - Lists contributors to the specified repository](#get-reposownerrepocontributors---lists-contributors-to-the-specified-repository)
   * [POST /repos/{owner}/{repo}/pulls - Create a pull request](#post-reposownerrepopulls---draft-pull-requests-are-available-in-public-repositories-with-github)
   * [GET /repos/{owner}/{repo}/issues - List issues in a repository](#get-reposownerrepoissues---list-issues-in-a-repository)
+  * [GET /user/repos - List repositories for the authenticated user](#get-userrepos---list-repositories-for-the-authenticated-user)
 
 ## Base URL and Authorization
 
@@ -1175,3 +1176,77 @@ The response contains an array with objects.
 | 404 | Repository not found |
 | 422 | Validation failed or the endpoint has been spammed |
 
+### GET /user/repos - List repositories for the authenticated user
+
+**URL:** `https://api.github.com/user/repos`
+
+**Method:** `GET`
+
+**Description:** Lists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `visibility` | string | No | Repository visibility: `all`, `public`, `private` | `all |
+| `affiliation` | string | No | Comma-separated list of affiliations: `owner`, `collaborator`, `organization_member` | - |
+| `type` | string | No | Limit results to repositories of the specified type: `all`, `owner`, `public`, `private` or `member` | `all` |
+| `sort` | string | No | Sort by: `created`, `updated`, `pushed`, `full_name` | `full_time` |
+| `direction` | string | No | Sort direction: `asc` or `desc` | `desc` |
+| `per_page` | integer | No | Results per page (max 100) | `30` |
+| `page` | integer | No | The page number of the results to fetch | `1` | 
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR-TOKEN` | **Yes** | Authentication token (requires `repo` scope for private repos) |
+
+#### Request Example
+
+`GET https://api.github.com/user/repos`
+
+`GET https://api.github.com/user/repos?visibility=public&sort=updated&direction=desc`
+
+#### cURL Command
+
+```bash
+curl -L \
+  -H "Accept:application/vnd.github+json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://api.github.com/user/repos?per_page=10"
+```
+
+#### Response Example (successful, code 200)
+
+The response is an array of repository objects (same structure as in GET /users/{username}/repos).
+
+```json
+[
+  {
+    "id": 1167654025,
+    "name": "test-issues",
+    "full_name": "alivieskan25-blip/test-issues",
+    "private": false,
+    "html_url": "https://github.com/alivieskan25-blip/test-issues",
+    "description": "Repository for test requests",
+    "created_at": "2026-02-26T14:35:13Z",
+    "updated_at": "2026-04-01T12:00:00Z"
+  }
+]
+```
+
+#### Response Fields Description
+
+See `Repository` schema — the response structure is identical to `GET /users/{username}/repos`.
+
+#### Response Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Successful request |
+| 304 | Not modified |
+| 401 | Unauthorized — token missing or invalid |
+| 403 | Forbidden — token lacks required scopes |
+| 422 | Validation failed |
