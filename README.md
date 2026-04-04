@@ -61,6 +61,7 @@ Documentation for the real GitHub REST API. All examples are tested with live da
 | `GET /repos/{owner}/{repo}/contributors` | Lists contributors to the specified repository |
 | `GET /repos/{owner}/{repo}/issues` | List issues in a repository |
 | `GET /user/repos` | List repositories for the authenticated user |
+| `GET /orgs/{org}/repos` | List organization repositories |
 
 #### POST endpoints (creating data):
 | Endpoint | Description |
@@ -93,7 +94,8 @@ This machine-readable specification allows you to:
 - `GET /repos/{owner}/{repo}/contributors` — List repository contributors
 - `GET /repos/{owner}/{repo}/commits` — List repository commits
 - `GET /repos/{owner}/{repo}/issues` — List issues in a repository
-- 'GET /user/repos` — List repositories for the authenticated user
+- `GET /user/repos` — List repositories for the authenticated user
+- `GET /orgs/{org}/repos` - List organization repositories
 
 ### 👀 Viewing the OpenAPI spec
 

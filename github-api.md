@@ -18,6 +18,7 @@ GitHub API allows you to programmatically get data about users, repositories, co
   * [POST /repos/{owner}/{repo}/pulls - Create a pull request](#post-reposownerrepopulls---draft-pull-requests-are-available-in-public-repositories-with-github)
   * [GET /repos/{owner}/{repo}/issues - List issues in a repository](#get-reposownerrepoissues---list-issues-in-a-repository)
   * [GET /user/repos - List repositories for the authenticated user](#get-userrepos---list-repositories-for-the-authenticated-user)
+  * [GET /orgs/{org}/repos - List organization repositories ](#get-orgsorgrepos---list-organization-repositories)
 
 ## Base URL and Authorization
 
@@ -1249,4 +1250,91 @@ See `Repository` schema — the response structure is identical to `GET /users/{
 | 304 | Not modified |
 | 401 | Unauthorized — token missing or invalid |
 | 403 | Forbidden — token lacks required scopes |
+| 422 | Validation failed |
+
+### GET /orgs/{org}/repos - List organization repositories
+
+**URL:** `https://api.github.com/orgs/ORG/repos`
+
+**Method:** `GET`
+
+**Description:** Lists repositories for the specified organization
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org` | string | Yes | The organization name |
+
+#### Query Parameters
+
+| Parameter | Type | Reqiured | Description | Default |
+|-----------|------|----------|-------------|---------|
+| `type` | string | No | Specifies the types of repositories you want returned.Can be one of: `all`, `public`, `private`, `forks`, `sources`, `member` | `all` |
+| `sort` | string | No | Sort by: `created`, `updated`, `pushed`, `full_name` | `created` |
+| `direction` | string | No | Sort direction: `asc` or `desc` | `desc` |
+| `per_page` | integer | No | Results per page (max 100) | `30` |
+| `page` | integer | No | The page number of the results to fetch | `1` |
+
+#### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Accept` | `application/vnd.github+json` | Yes | Response format |
+| `Authorization` | `Bearer YOUR_TOKEN` | No | Authentication token (for higher rate limits) |
+
+#### Request Examples
+
+`GET https://api.github.com/orgs/github/repos`
+
+`GET https://api.github.com/orgs/google/repos?type=public&sort=updated&direction=desc&per_page=10`
+
+#### cURL Command
+
+```bash
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.github.com/orgs/github/repos?per_page=5&direction=desc"
+```
+
+#### Response Example (successful, code 200)
+
+The response is an array of repository objects (same structure as in GET /users/{username}/repos).
+
+```json
+[
+  {
+    "id": 1936771,
+    "name": "truth",
+    "full_name": "google/truth",
+    "private": false,
+    "html_url": "https://github.com/google/truth",
+    "description": "Fluent assertions for Java and Android",
+    "fork": false,
+    "created_at": "2011-06-22T18:55:12Z",
+    "updated_at": "2026-04-03T06:53:54Z",
+    "stargazers_count": 2781,
+    "language": "Java",
+    "forks_count": 267,
+    "open_issues_count": 74,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0"
+    },
+    "visibility": "public"
+  }
+]
+```
+
+#### Response Fields Description
+
+See Repository schema — the response structure is identical to `GET /users/{username}/repos`.
+
+#### Response Codes
+
+| 200 | Successful request |
+| 304 | Not modified |
+| 403 | Forbidden — rate limit exceeded |
+| 404 | Not found — organization does not exist |
 | 422 | Validation failed |
