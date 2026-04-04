@@ -933,10 +933,6 @@ curl -L \
 | 401 | Response if the token is incorrect or absent |
 | 403 | Rate limit exceeded (use a token) |
 | 404 | Resource not found |
-<<<<<<< Updated upstream
-| 422 | Validation failed (invalid parameters) |
-=======
-| 422 | Validation failed (invalid parameters) |
 
 ### POST /repos/{owner}/{repo}/pulls - Create a pull request
 
